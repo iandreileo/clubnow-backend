@@ -36,7 +36,7 @@ const OfferSchema = new mongoose.Schema(
         startDate: { type: Date, required: true },
         endDate: { type: Date, required: true },
         profileImage: { type: String },
-        price: { type: Double, required: true },
+        price: { type: Number, required: true },
         products: { type: Array, required: true }
     },
     {collection: 'Offers'}
@@ -73,8 +73,7 @@ const UserSchema = new mongoose.Schema(
         name: { type: String, required: true },
         type: { type: Number, required: true },
         address: { type: String, required: true },
-        profileImage: { type: String },
-        
+        profileImage: { type: String }
     },
     {collection: 'Users'}
 )
