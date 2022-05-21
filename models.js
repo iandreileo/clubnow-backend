@@ -11,7 +11,7 @@ const ClubSchema = new mongoose.Schema(
         musicGenre: { type: String },
         city: { type: String, required: true },
         approved: { type: Boolean }
-        
+         
     },
     {collection: 'Clubs'}
 )
