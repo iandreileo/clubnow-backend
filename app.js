@@ -1,7 +1,3 @@
-// app.get("/", (req, res) => {
-//   res.send("Hello World!");
-// });
-
 const express = require("express");
 const mongoose = require("mongoose");
 const modelsModule = require("./models.js");
@@ -25,25 +21,25 @@ connection.once('open', () => {
     console.log("DB connected.");
 })
 
-app.get("/api/v1/UserGetAll", async (req, res) => {
+app.get("/api/v1/allUsers", async (req, res) => {
   await UserSchema.find({}, (err, result) => {
     console.log("users from db: ", result);
     res.send(result);
   }).clone();
 });
 
-app.get("/api/v1/UserGet", async (req, res) => {///get by name
-  await UserSchema.find({name: req.body.name}, (err, result) => {
+app.get("/api/v1/user", async (req, res) => {///get by name
+  await UserSchema.find({uid: req.body.uid}, (err, result) => {
     console.log("user from db: ", result);
     res.send(result);
   }).clone();
 });
 
-app.post("/api/v1/UserUpdate", async (req, res) => {
+app.patch("/api/v1/user", async (req, res) => {
   try {
     console.log("req.body: ", req.body);
 
-    await UserSchema.updateOne({ name: req.body.oldname }, {
+    await UserSchema.updateOne({ uid: req.body.uid }, {
        name: req.body.name,
        type: req.body.type,
        address: req.body.address,
@@ -55,18 +51,11 @@ app.post("/api/v1/UserUpdate", async (req, res) => {
   }
 });
 
-app.get("/api/v1/UserDeleteAll", async (req, res) => {
-  await UserSchema.deleteMany({}, (err) => {
-    if(err) console.log("Error deleting users.");
-  }).clone();
-  res.send("UsersDeleted");
-});
-
-app.post("/api/v1/UserDelete", async (req, res) => {
+app.delete("/api/v1/user", async (req, res) => {
   try {
     console.log("req.body: ", req.body);
 
-    await UserSchema.deleteOne({ name: req.body.name }, (err) => {
+    await UserSchema.deleteOne({ uid: req.body.uid }, (err) => {
       if(err) console.log("Error deleting user.");
     }).clone();
     res.send("User deleted");
@@ -75,11 +64,12 @@ app.post("/api/v1/UserDelete", async (req, res) => {
   }
 });
 
-app.post("/api/v1/UserCreate", async (req, res) => {
+app.post("/api/v1/user", async (req, res) => {
   try {
     console.log("req.body: ", req.body);
 
     const newUser = new UserSchema({
+      uid: req.body.uid,
       name: req.body.name,
       type: req.body.type,
       address: req.body.address,
@@ -93,7 +83,7 @@ app.post("/api/v1/UserCreate", async (req, res) => {
   }
 });
 
-app.post("/api/v1/Clubs", async (req, res) => {
+app.post("/api/v1/club", async (req, res) => {
   try {
     console.log("req.body: ", req.body);
 

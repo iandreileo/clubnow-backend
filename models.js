@@ -70,6 +70,7 @@ exports.ReservationSchema = mongoose.model('Reservation', ReservationSchema)
 
 const UserSchema = new mongoose.Schema(
     {
+        uid: {type: String, required: true},
         name: { type: String, required: true },
         type: { type: Number, required: true },
         address: { type: String, required: true },
