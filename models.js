@@ -80,5 +80,3 @@ const UserSchema = new mongoose.Schema(
 )
 
 exports.UserSchema = mongoose.model('User', UserSchema)
-
-

@@ -21,42 +21,25 @@ connection.once('open', () => {
     console.log("DB connected.");
 })
 
-<<<<<<< HEAD
 app.get("/api/v1/allUsers", async (req, res) => {
-=======
-app.get("/api/v1/UserGetAll", async (req, res) => {
->>>>>>> 5aa6a01e5ebe6ea1386ded9730c6d25a8249873c
   await UserSchema.find({}, (err, result) => {
     console.log("users from db: ", result);
     res.send(result);
   }).clone();
 });
 
-<<<<<<< HEAD
 app.get("/api/v1/user", async (req, res) => {///get by name
   await UserSchema.find({uid: req.body.uid}, (err, result) => {
-=======
-app.get("/api/v1/UserGet", async (req, res) => {///get by name
-  await UserSchema.find({name: req.body.name}, (err, result) => {
->>>>>>> 5aa6a01e5ebe6ea1386ded9730c6d25a8249873c
     console.log("user from db: ", result);
     res.send(result);
   }).clone();
 });
 
-<<<<<<< HEAD
 app.patch("/api/v1/user", async (req, res) => {
   try {
     console.log("req.body: ", req.body);
 
     await UserSchema.updateOne({ uid: req.body.uid }, {
-=======
-app.post("/api/v1/UserUpdate", async (req, res) => {
-  try {
-    console.log("req.body: ", req.body);
-
-    await UserSchema.updateOne({ name: req.body.oldname }, {
->>>>>>> 5aa6a01e5ebe6ea1386ded9730c6d25a8249873c
        name: req.body.name,
        type: req.body.type,
        address: req.body.address,
@@ -68,26 +51,11 @@ app.post("/api/v1/UserUpdate", async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
 app.delete("/api/v1/user", async (req, res) => {
   try {
     console.log("req.body: ", req.body);
 
     await UserSchema.deleteOne({ uid: req.body.uid }, (err) => {
-=======
-app.get("/api/v1/UserDeleteAll", async (req, res) => {
-  await UserSchema.deleteMany({}, (err) => {
-    if(err) console.log("Error deleting users.");
-  }).clone();
-  res.send("UsersDeleted");
-});
-
-app.post("/api/v1/UserDelete", async (req, res) => {
-  try {
-    console.log("req.body: ", req.body);
-
-    await UserSchema.deleteOne({ name: req.body.name }, (err) => {
->>>>>>> 5aa6a01e5ebe6ea1386ded9730c6d25a8249873c
       if(err) console.log("Error deleting user.");
     }).clone();
     res.send("User deleted");
@@ -96,11 +64,7 @@ app.post("/api/v1/UserDelete", async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
 app.post("/api/v1/user", async (req, res) => {
-=======
-app.post("/api/v1/UserCreate", async (req, res) => {
->>>>>>> 5aa6a01e5ebe6ea1386ded9730c6d25a8249873c
   try {
     console.log("req.body: ", req.body);
 
@@ -119,11 +83,7 @@ app.post("/api/v1/UserCreate", async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
 app.post("/api/v1/club", async (req, res) => {
-=======
-app.post("/api/v1/Clubs", async (req, res) => {
->>>>>>> 5aa6a01e5ebe6ea1386ded9730c6d25a8249873c
   try {
     console.log("req.body: ", req.body);
 
@@ -148,5 +108,3 @@ app.post("/api/v1/Clubs", async (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on localhost:${port}`);
 });
-
-
