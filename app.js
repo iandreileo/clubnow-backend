@@ -83,6 +83,69 @@ app.post("/api/v1/user", async (req, res) => {
   }
 });
 
+app.get("/api/v1/allUsers", async (req, res) => {
+  await UserSchema.find({}, (err, result) => {
+    console.log("users from db: ", result);
+    res.send(result);
+  }).clone();
+});
+
+app.get("/api/v1/user", async (req, res) => {///get by name
+  await UserSchema.find({uid: req.body.uid}, (err, result) => {
+    console.log("user from db: ", result);
+    res.send(result);
+  }).clone();
+});
+
+app.patch("/api/v1/user", async (req, res) => {
+  try {
+    console.log("req.body: ", req.body);
+
+    await UserSchema.updateOne({ uid: req.body.uid }, {
+       name: req.body.name,
+       type: req.body.type,
+       address: req.body.address,
+       profileImage: req.body.profileImage
+      }, function(err, result) {}).clone();
+    res.send("User updated");
+  } catch (err) {
+    console.log("error: ", err);
+  }
+});
+
+app.delete("/api/v1/reservation", async (req, res) => {
+  try {
+    console.log("req.body: ", req.body);
+
+    await ReservationSchema.deleteOne({ _id: req.body._id }, (err) => {
+      if(err) console.log("Error deleting reservation.");
+    }).clone();
+    res.send("Reservation deleted");
+  } catch (err) {
+    console.log("error: ", err);
+  }
+});
+
+app.post("/api/v1/reservation", async (req, res) => {
+  try {
+    console.log("req.body: ", req.body);
+
+    const newReservation = new ReservationSchema({
+      clubId: req.body.clubId,
+      userId: req.body.userId,
+      date: req.body.date
+    });
+
+    await ReservationSchema.create(newReservation);
+    res.send("Reservation added");
+  } catch (err) {
+    console.log("error: ", err);
+  }
+});
+
+
+
+
 app.post("/api/v1/club", async (req, res) => {
   try {
     console.log("req.body: ", req.body);

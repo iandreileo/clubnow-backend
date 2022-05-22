@@ -61,7 +61,7 @@ const ReservationSchema = new mongoose.Schema(
     {
         clubId: { type: ObjectId, required: true },
         userId: { type: ObjectId, required: true },
-        date: {type: Date, required: true}
+        date: {type: Date, default: Date.now}
     },
     {collection: 'Reservations'}
 )
