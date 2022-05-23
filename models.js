@@ -19,8 +19,11 @@ exports.ClubSchema = mongoose.model("Club", ClubSchema);
 
 const EventSchema = new mongoose.Schema(
   {
-    clubId: { type: ObjectId, required: true },
-    date: { type: Date, required: true },
+    clubId: { type: String },
+    ownerId: { type: String },
+    date: { type: String },
+    eventName: { type: String },
+    description: { type: String },
     profileImage: { type: String },
   },
   { collection: "Events" }
@@ -30,12 +33,13 @@ exports.EventSchema = mongoose.model("Event", EventSchema);
 
 const OfferSchema = new mongoose.Schema(
   {
-    clubId: { type: ObjectId, required: true },
-    startDate: { type: Date, required: true },
-    endDate: { type: Date, required: true },
+    clubId: { type: String, required: true },
+    name: { type: String },
+    startDate: { type: String },
+    endDate: { type: String },
     profileImage: { type: String },
-    price: { type: Number, required: true },
-    products: { type: Array, required: true },
+    price: { type: Number },
+    products: { type: String },
   },
   { collection: "Offers" }
 );

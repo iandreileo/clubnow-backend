@@ -192,8 +192,8 @@ app.post("/api/v1/club", async (req, res) => {
 });
 
 app.get("/api/v1/club", async (req, res) => {
-  console.log(req.body);
-  ClubSchema.findOne({ ownerId: req.body.ownerId }).then((club) => {
+  console.log(req.query);
+  ClubSchema.findOne({ ownerId: req.query.id }).then((club) => {
     if (club) {
       res.status(200).json({
         message: "Found!",
@@ -202,6 +202,130 @@ app.get("/api/v1/club", async (req, res) => {
     } else {
       res.status(404).json({
         message: "Club not found!",
+      });
+    }
+  });
+});
+
+app.get("/api/v1/clubbyid", async (req, res) => {
+  console.log(req.query.id);
+  ClubSchema.findById(req.query.id).then((club) => {
+    if (club) {
+      res.status(200).json({
+        message: "Found!",
+        club,
+      });
+    } else {
+      res.status(404).json({
+        message: "Club not found!",
+      });
+    }
+  });
+});
+
+app.get("/api/v1/clubs", async (req, res) => {
+  console.log(req.body);
+  ClubSchema.find({}).then((clubs) => {
+    if (clubs) {
+      res.status(200).json({
+        message: "Found!",
+        clubs,
+      });
+    } else {
+      res.status(404).json({
+        message: "Clubs not found!",
+      });
+    }
+  });
+});
+
+// =========================
+
+app.get("/api/v1/offers", async (req, res) => {
+  console.log(req.query.id);
+  OfferSchema.find({ clubId: req.query.id }).then((offers) => {
+    if (offers) {
+      res.status(200).json({
+        message: "Found!",
+        offers,
+      });
+    } else {
+      res.status(404).json({
+        message: "Offers not found!",
+      });
+    }
+  });
+});
+
+// ============================
+
+app.post("/api/v1/event", async (req, res) => {
+  const event = new EventSchema(req.body.event);
+
+  event.save((err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({
+        message: err._message,
+      });
+    } else {
+      console.log(result);
+      res.status(200).json({
+        message: "Success!",
+        user: result,
+      });
+    }
+  });
+});
+
+app.get("/api/v1/events", async (req, res) => {
+  console.log(req.query.id);
+  EventSchema.find({ clubId: req.query.id }).then((events) => {
+    if (events) {
+      res.status(200).json({
+        message: "Found!",
+        events,
+      });
+    } else {
+      res.status(404).json({
+        message: "events not found!",
+      });
+    }
+  });
+});
+
+// ====
+
+app.post("/api/v1/offer", async (req, res) => {
+  const offer = new OfferSchema(req.body.offer);
+
+  offer.save((err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({
+        message: err._message,
+      });
+    } else {
+      console.log(result);
+      res.status(200).json({
+        message: "Success!",
+        user: result,
+      });
+    }
+  });
+});
+
+app.get("/api/v1/offers", async (req, res) => {
+  console.log(req.query.id);
+  OfferSchema.find({ clubId: req.query.id }).then((offers) => {
+    if (offers) {
+      res.status(200).json({
+        message: "Found!",
+        offers,
+      });
+    } else {
+      res.status(404).json({
+        message: "offers not found!",
       });
     }
   });
