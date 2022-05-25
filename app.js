@@ -31,7 +31,9 @@ app.get("/api/v1/allUsers", async (req, res) => {
 });
 
 app.get("/api/v1/user", async (req, res) => {
-  UserSchema.findOne({ uid: req.body.uid }).then((user) => {
+  console.log(req.query.uid)
+  UserSchema.findOne({ uid: req.query.uid }).then((user) => {
+    console.log(user)
     if (user) {
       res.status(200).json({
         message: "Found!",
@@ -89,8 +91,9 @@ app.post("/api/v1/user", async (req, res) => {
 
   UserSchema.find({ uid: req.body.uid }, function (err, docs) {
     if (docs.length) {
+      console.log(docs[0])
       res.status(200).json({
-        user: docs,
+        user: docs[0],
       });
     } else {
       currentUser.save((err, result) => {
@@ -103,7 +106,7 @@ app.post("/api/v1/user", async (req, res) => {
           console.log(result);
           res.status(200).json({
             message: "Success!",
-            user: result,
+            user: result[0],
           });
         }
       });
@@ -240,10 +243,11 @@ app.get("/api/v1/clubs", async (req, res) => {
 });
 
 app.patch("/api/v1/approveclub", async (req, res) => {
+  console.log(req.body.id);
   try {
     console.log("req.body: ", req.body.id);
 
-    ReviewSchema.updateOne(
+    ClubSchema.updateOne(
       { _id: req.body.id },
       {
         approved: true
