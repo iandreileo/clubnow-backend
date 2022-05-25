@@ -239,6 +239,77 @@ app.get("/api/v1/clubs", async (req, res) => {
   });
 });
 
+app.patch("/api/v1/approveclub", async (req, res) => {
+  try {
+    console.log("req.body: ", req.body.id);
+
+    ReviewSchema.updateOne(
+      { _id: req.body.id },
+      {
+        approved: true
+      },
+      function (err, result) {}
+    ).clone();
+    res.send("Club approved");
+  } catch (err) {
+    console.log("error: ", err);
+  }
+});
+
+app.patch("/api/v1/approvereview", async (req, res) => {
+  console.log(req.body);
+  ReviewSchema.findOneAndUpdate({ _id:req.body.id }, {approved: true}, {
+    useFindAndModify: true,
+}).then((user) => {
+    if (user) {
+        res.status(200).json({
+            message: "Review Updated!",
+            user,
+        });
+    } else {
+        res.status(404).json({
+            message: "User not found!",
+        });
+    }
+
+});
+});
+
+app.patch("/api/v1/updateclub", async (req, res) => {
+  console.log(req.body);
+  ClubSchema.findOneAndUpdate({ _id:req.body.id }, req.body.club, {
+    useFindAndModify: true,
+}).then((user) => {
+    if (user) {
+        res.status(200).json({
+            message: "Updated!",
+            user,
+        });
+    } else {
+        res.status(404).json({
+            message: "User not found!",
+        });
+    }
+
+});
+});
+
+app.get("/api/v1/clubspending", async (req, res) => {
+  console.log(req.body);
+  ClubSchema.find({approved: false}).then((clubs) => {
+    if (clubs) {
+      res.status(200).json({
+        message: "Found!",
+        clubs,
+      });
+    } else {
+      res.status(404).json({
+        message: "Clubs not found!",
+      });
+    }
+  });
+});
+
 // =========================
 
 app.get("/api/v1/offers", async (req, res) => {
@@ -263,6 +334,25 @@ app.post("/api/v1/event", async (req, res) => {
   const event = new EventSchema(req.body.event);
 
   event.save((err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({
+        message: err._message,
+      });
+    } else {
+      console.log(result);
+      res.status(200).json({
+        message: "Success!",
+        user: result,
+      });
+    }
+  });
+});
+
+app.post("/api/v1/createreview", async (req, res) => {
+  const review = new ReviewSchema(req.body.review);
+
+  review.save((err, result) => {
     if (err) {
       console.log(err);
       res.status(500).json({
@@ -322,6 +412,39 @@ app.get("/api/v1/offers", async (req, res) => {
       res.status(200).json({
         message: "Found!",
         offers,
+      });
+    } else {
+      res.status(404).json({
+        message: "offers not found!",
+      });
+    }
+  });
+});
+app.get("/api/v1/getreviews", async (req, res) => {
+  console.log(req.query.id);
+  ReviewSchema.find({ clubId: req.query.id, approved: true}).then((reviews) => {
+    if (reviews) {
+      console.log(reviews);
+      res.status(200).json({
+        message: "Found!",
+        reviews,
+      });
+    } else {
+      res.status(404).json({
+        message: "offers not found!",
+      });
+    }
+  });
+});
+
+app.get("/api/v1/getpendingreviews", async (req, res) => {
+  console.log(req.query.id);
+  ReviewSchema.find({ clubId: req.query.id, approved: false}).then((reviews) => {
+    if (reviews) {
+      console.log(reviews);
+      res.status(200).json({
+        message: "Found!",
+        reviews,
       });
     } else {
       res.status(404).json({

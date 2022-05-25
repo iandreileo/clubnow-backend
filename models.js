@@ -7,6 +7,7 @@ const ClubSchema = new mongoose.Schema(
     ownerId: { type: String, required: true },
     address: { type: String, required: true },
     images: { type: Array },
+    profileImage: {type: String},
     foundationDate: { type: String, required: true },
     musicGenre: { type: String },
     city: { type: String, required: true },
@@ -49,8 +50,8 @@ exports.OfferSchema = mongoose.model("Offer", OfferSchema);
 const ReviewSchema = new mongoose.Schema(
   {
     clubId: { type: ObjectId, required: true },
-    userId: { type: ObjectId, required: true },
-    comment: { type: String, required: true },
+    userId: { type: String, required: true },
+    review: {type: String, required: true},
     date: { type: Date, default: Date.now },
     approved: { type: Boolean },
   },
@@ -63,6 +64,7 @@ const ReservationSchema = new mongoose.Schema(
   {
     clubId: { type: ObjectId, required: true },
     userId: { type: ObjectId, required: true },
+    approved: {type: Boolean},
     date: { type: Date, default: Date.now },
   },
   { collection: "Reservations" }
@@ -77,6 +79,7 @@ const UserSchema = new mongoose.Schema(
     type: { type: Number },
     address: { type: String },
     profileImage: { type: String },
+    isAdmin: {type: Boolean}
   },
   { collection: "Users" }
 );
